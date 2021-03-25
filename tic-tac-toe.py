@@ -26,11 +26,30 @@ def validator():
             is_valid = True
 
     return players_dict
-    
+
+def handle_players_movements(player_name):
+    players_xo_move = {}
+    player_movements = input(player_name +', enter your movement:')
+    is_valid = False
+
+    while not is_valid:
+        if not player_movements.isnumeric() or len(player_movements) > 1 or player_movements == '0':
+            print('only numbers from 1 to 9 are allowed')
+            player_movements = input(player_name +', enter your movement:')
+        else:
+            is_valid = True
+
+    if player_name not in players_xo_move:
+        players_xo_move[player_name] = [player_movements]
+    else:
+        players_xo_move[player_name].append(player_movements)
+
+    return players_xo_move
+
 def layout():
-    x = ["_","_","_"]
-    y = ["_","_","_"]
-    z = ["_","_","_"]
+    x = ["1","2","3"]
+    y = ["4","5","6"]
+    z = ["7","8","9"]
 
     print(x)
     print(y)
@@ -38,6 +57,8 @@ def layout():
 
 def main():
     named_players = validator()
+    handle_players_movements(named_players['player_x'])
+    handle_players_movements(named_players['player_o'])
     layout()
 
 main()
