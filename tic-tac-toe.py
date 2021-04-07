@@ -1,4 +1,7 @@
 import pprint
+from datetime import datetime
+import winsound
+
 
 pp = pprint.PrettyPrinter(width=18, compact=True)
 
@@ -93,6 +96,16 @@ def layout():
     table = ['1','2','3','4','5','6','7','8','9']
     return table
 
+def time_per_play(now):
+        later = datetime.now()
+        time = later.second - now.second
+
+        if time < 0:
+            print('This player took more than 1 minute to made his move\n')
+        else:
+            print('This player took', time, 'seconds to made his move\n')
+
+
 def main():
     named_players = validator()
     table=layout()
@@ -102,19 +115,27 @@ def main():
    
     while not report_winners(table) and not report_draw(table):
         if count %2==0:
+            now = datetime.now()
+            now.second
             last_player='X'
             player_movements=handle_players_movements('X',table)
             render_movement(table,'X',player_movements['X'])
+            time_per_play(now)
+
         else:
+            now = datetime.now()
+            now.second
             last_player='O'
             player_movements=handle_players_movements('O',table)
             render_movement(table,'O',player_movements['O'])
-        
+            time_per_play(now)
+           
         if player_movements:
             count+=1   
 
     if report_winners(table):
         print('___WINNER___')
         print('The Winner is ' + named_players[last_player])
+        winsound.PlaySound("*",winsound.MB_ICONASTERISK)
 
 main()
